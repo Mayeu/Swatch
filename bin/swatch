@@ -1,0 +1,94 @@
+#!/usr/bin/env ruby
+
+require "trollop"
+
+# ###############
+# Global variable
+# ###############
+
+CONF_FILE = File.expand_path("~/.swatchrc")
+TRACK_FILE = File.expand_path("~/todo/swatchtrack.txt")
+TODO_FILE = File.expand_path("~/todo/todo.txt")
+
+#
+# running_task? is there a running task
+# return nil, or the running task
+#
+def running_task?
+  line = ''
+  IO.popen("tail -n 1 #{TRACK_FILE}") { |f| line = f.gets }
+  puts line
+  if(line != nil && (!line.match '^.+\t\d+\t\d+$'))
+    true
+  else
+    false
+  end
+end
+
+#
+# task_out going out of a task
+#
+def task_out
+  if running_task?
+    puts "There is a task running"
+    f = File.open(TRACK_FILE, "a")
+    f.print "\t#{Time.now.to_i}\n"
+    f.close
+  else
+    puts "There is no task running"
+  end
+end
+
+#
+# task_in start a task
+#
+def task_in (task)
+  # TODO don't go here if ARGV is null !
+  # if there is a task running, we get out of it
+  if running_task?
+    puts "There is a task running, getting out of this one"
+    task_out
+  end
+
+  if(!File.exist?(TRACK_FILE))
+    puts "Create a new task file"
+    stdout = File.new(TRACK_FILE, "w")
+  else
+    puts "Use #{TRACK_FILE}"
+    stdout = File.open(TRACK_FILE, "a")
+  end
+  stdout.print "#{task}\t#{Time.now.to_i}"
+  stdout.close
+end
+
+# #####################
+# Subcommand definition
+# #####################
+
+SUB_COMMANDS = %w(in i out o what w report r)
+global_opts = Trollop::options do
+  version "Swatch Beta 0.42"
+  banner "Swatch, a command line utility to track your time"
+  stop_on SUB_COMMANDS
+end
+
+cmd = ARGV.shift # get the subcommand
+cmd_opts = case cmd
+           when "in" || "i"
+             # TODO add todo.txt support 
+             #Trollop::options do
+             #  opt :todo, "Track a todo.txt task", :type => :int, :short => "-t"
+             #end
+             task_in ARGV.join(" ").chomp
+           when "out" || "o"
+             task_out
+           when "what" || "w"
+           when "report" || "r"
+           end
+
+puts "Global options: #{global_opts.inspect}"
+puts "Subcommand: #{cmd.inspect}"
+puts "Subcommand options: #{cmd_opts.inspect}"
+puts "Remaining arguments: #{ARGV.inspect}"
+
+

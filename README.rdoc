@@ -1,0 +1,4 @@
+= Swatch
+
+A simple command line utility in Ruby to track your time.
+Can be use with todo.txt task list.
