@@ -17,7 +17,7 @@ module Swatch
   # Go out of the current task running
   def task_out
     if running_task?
-      puts "There is a task running"
+      puts "Stop task"
       f = File.open(TRACK_FILE, "a")
       f.print "\t#{Time.now.to_i}\n"
       f.close
@@ -28,7 +28,12 @@ module Swatch
 
   # Start a task
   def task_in (task)
-    # TODO don't go here if ARGV is null !
+    # don't go here if ARGV is null !
+    if task.strip.empty?
+      puts "No task specified"
+      exit
+    end
+
     # if there is a task running, we get out of it
     if running_task?
       puts "There is a task running, getting out of this one"
@@ -36,13 +41,17 @@ module Swatch
     end
 
     if(!File.exist?(TRACK_FILE))
-      puts "Create a new task file"
-      stdout = File.new(TRACK_FILE, "w")
+      #puts "Create a new task file"
+      out = File.new(TRACK_FILE, "w")
     else
-      puts "Use #{TRACK_FILE}"
-      stdout = File.open(TRACK_FILE, "a")
+      #puts "Use #{TRACK_FILE}"
+      out = File.open(TRACK_FILE, "a")
     end
-    stdout.print "#{task}\t#{Time.now.to_i}"
-    stdout.close
+
+    #print the task in the file
+    out.print "#{task}\t#{Time.now.to_i}"
+    out.close
+
+    puts "swatch: Start #{task}"
   end
 end
