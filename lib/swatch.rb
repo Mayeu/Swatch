@@ -44,7 +44,7 @@ module Swatch
 
     # if there is a task running, we get out of it
     if running_task?
-      puts "There is a task running, getting out of this one"
+      #puts "There is a task running, getting out of this one"
       task_out
     end
 
@@ -60,6 +60,6 @@ module Swatch
     out.print "#{task}\t#{Time.now.to_i}"
     out.close
 
-    puts "swatch: Start #{task}"
+    puts "Start task: #{task}"
   end
 end
