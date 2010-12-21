@@ -6,7 +6,7 @@ module Swatch
   def running_task?
     line = ''
     IO.popen("tail -n 1 #{TRACK_FILE}") { |f| line = f.gets }
-    puts line
+    #puts line
     if(line != nil && (!line.match '^.+\t\d+\t\d+$'))
       true
     else
@@ -14,10 +14,18 @@ module Swatch
     end
   end
 
+  # Return the name of the last task
+  def get_last_task_name
+    line = ''
+    IO.popen("tail -n 1 #{TRACK_FILE}") { |f| line = f.gets }
+    m = line.match '^(.+)\t\d+(\t\d+)?'
+    m[1]
+  end
+
   # Go out of the current task running
   def task_out
     if running_task?
-      puts "Stop task"
+      puts "Stop task: " + get_last_task_name
       f = File.open(TRACK_FILE, "a")
       f.print "\t#{Time.now.to_i}\n"
       f.close
