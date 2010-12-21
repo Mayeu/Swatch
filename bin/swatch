@@ -19,6 +19,7 @@ require 'swatch'
 CONF_FILE = File.expand_path("~/.swatchrc")
 TRACK_FILE = File.expand_path("~/todo/swatchtrack.txt")
 TODO_FILE = File.expand_path("~/todo/todo.txt")
+VERSION = 0.1
 
 # #####################
 # Subcommand definition
@@ -26,7 +27,7 @@ TODO_FILE = File.expand_path("~/todo/todo.txt")
 
 SUB_COMMANDS = %w(in i out o what w report r)
 global_opts = Trollop::options do
-  version "Swatch Beta 0.42"
+  version VERSION
   banner <<-EOS
 Swatch, a command line utility to track the time you spend.
   swatch [-hv] <command> <command options> <command arg> 
