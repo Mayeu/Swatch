@@ -34,7 +34,7 @@ Swatch, a command line utility to track the time you spend.
 
 You can have detailled instruction on a command with:
   swatch -h <command>
-  
+
           in, i:   launch the time tracker
                    swatch in "task"
          out, o:   stop the current running task
@@ -59,9 +59,9 @@ cmd_opts = case cmd
            when "report" || "r"
            end
 
-puts "Global options: #{global_opts.inspect}"
-puts "Subcommand: #{cmd.inspect}"
-puts "Subcommand options: #{cmd_opts.inspect}"
-puts "Remaining arguments: #{ARGV.inspect}"
+#puts "Global options: #{global_opts.inspect}"
+#puts "Subcommand: #{cmd.inspect}"
+#puts "Subcommand options: #{cmd_opts.inspect}"
+#puts "Remaining arguments: #{ARGV.inspect}"
 
 
