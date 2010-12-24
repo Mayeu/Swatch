@@ -1,5 +1,8 @@
 = Changelog
 
+== 0.2.1
+Minor update to add config file support
+
 == 0.2
 Add a simple support of todo.txt
 
