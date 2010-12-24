@@ -1,0 +1,7 @@
+= Changelog
+
+== 0.2
+Add a simple support of todo.txt
+
+== 0.1
+First usable version, with no support of todo.txt
