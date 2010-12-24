@@ -19,7 +19,7 @@ require 'swatch'
 CONF_FILE = File.expand_path("~/.swatchrc")
 TRACK_FILE = File.expand_path("~/todo/swatchtrack.txt")
 TODO_FILE = File.expand_path("~/todo/todo.txt")
-VERSION = 0.1
+VERSION = 0.2
 
 # #####################
 # Subcommand definition
@@ -41,7 +41,7 @@ You can have detailled instruction on a command with:
                    swatch out
         what, w:   print the current task on stdout
                    swatch what
-EOS
+  EOS
   stop_on SUB_COMMANDS
 end
 
@@ -52,9 +52,7 @@ cmd_opts = case cmd
              Trollop::options do
                opt :todo, "Track a todo.txt task", :type => :int, :short => "-t"
              end
-             Swatch::task_in ARGV.join(" ").chomp
            when "out", "o"
-             Swatch::task_out
            when "what" || "w"
            when "report" || "r"
            end
@@ -63,5 +61,20 @@ cmd_opts = case cmd
 #puts "Subcommand: #{cmd.inspect}"
 #puts "Subcommand options: #{cmd_opts.inspect}"
 #puts "Remaining arguments: #{ARGV.inspect}"
+
+# Now we have the arg. So, what do we do ?
+
+case cmd
+when "in", "i"
+  unless cmd_opts[:todo]
+    Swatch::task_in ARGV.join(" ").chomp
+  else
+    Swatch::task_in_todo cmd_opts[:todo]
+  end
+when "out", "o"
+  Swatch::task_out
+when "what" || "w"
+when "report" || "r"
+end
 
 
