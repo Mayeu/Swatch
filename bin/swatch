@@ -48,7 +48,6 @@ end
 cmd = ARGV.shift # get the subcommand
 cmd_opts = case cmd
            when "in", "i"
-             # TODO add todo.txt support 
              Trollop::options do
                opt :todo, "Track a todo.txt task", :type => :int, :short => "-t"
              end

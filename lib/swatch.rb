@@ -74,6 +74,7 @@ module Swatch
 
   # Return the todo associated to the given number
   def get_todo (nb)
+    # TODO: parse todo to remove the priority
     IO.readlines(TODO_FILE)[nb-1]
   end
 
