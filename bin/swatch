@@ -18,14 +18,14 @@ require ('parseconfig')
 # ###############
 
 CONF_FILE = File.expand_path("~/.swatchrc")
-VERSION = 0.2
+VERSION = '0.2.1'
 
 if File.exist? CONF_FILE
   config = ParseConfig.new(CONF_FILE)
   TRACK_FILE = File.expand_path config.get_value 'track_file' 
   TODO_FILE = File.expand_path config.get_value 'todo_file' 
 else
-  TRACK_FILE = File.expand_path("~/.swatchtrack.txt")
+  TRACK_FILE = File.expand_path("~/.swatch.txt")
   TODO_FILE = File.expand_path("~/.todo.txt")
 end
 
