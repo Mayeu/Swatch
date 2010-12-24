@@ -5,16 +5,16 @@ Can be use with todo.txt task list.
 
 == Usage
 
-<tt>swatch command [option] arg</tt>
+  swatch command [option] arg
 
 Going in a task :
-<tt>swatch in My awesome task</tt>
+  swatch in My awesome task
 
 Getting out:
-<tt>swatch out</tt>
+  swatch out
 
 Timing a todo.txt task:
-<tt>swatch in -t 42</tt>
+  swatch in -t 42
 
 == Todo
-  * parse todo to remove the priority
+* parse todo to remove the priority
