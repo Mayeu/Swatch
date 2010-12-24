@@ -62,4 +62,19 @@ module Swatch
 
     puts "Start task: #{task}"
   end
+
+  # Return the todo associated to the given number
+  def get_todo (nb)
+    IO.readlines(TODO_FILE)[nb-1]
+  end
+
+  # Going in a task with a todo from todo.txt
+  def task_in_todo (nb)
+     t = get_todo (nb)
+    if t
+      task_in t.chomp
+    else
+      puts "No task specified"
+    end
+  end
 end
