@@ -3,7 +3,7 @@ Gem::Specification.new do |spec|
   spec.author = 'Matthieu Maury'
   spec.email = 'mayeu.tik@gmail.com'
   spec.homepage = 'http://github.com/Mayeutik/swatch'
-  spec.version = '0.2.1'
+  spec.version = '0.2.2'
   spec.summary = 'A simple cli timetracking script that can be use with todo.txt'
   spec.description = <<-EOF
 Swatch is a simple timetracking script in Ruby.
@@ -15,4 +15,6 @@ EOF
   spec.files << 'CHANGELOG.rdoc'
   spec.files << 'LICENSE'
   spec.executables << 'swatch'
+  spec.add_dependency('trollop')
+  spec.add_dependency('parseconfig')
 end
