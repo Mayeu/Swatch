@@ -1,5 +1,8 @@
 = Changelog
 
+== 0.2.2
+Minor update to add dependencies to Trollop and parseconfig
+
 == 0.2.1
 Minor update to add config file support
 
