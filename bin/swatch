@@ -10,8 +10,9 @@
 #
 
 require 'trollop'
-require 'swatch'
-require ('parseconfig')
+require 'parseconfig'
+
+require_relative '../lib/swatch'
 
 # ###############
 # Global variable
@@ -83,5 +84,3 @@ when "out", "o"
 when "what" || "w"
 when "report" || "r"
 end
-
-
