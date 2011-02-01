@@ -22,7 +22,7 @@ class TestSwatch < Test::Unit::TestCase
   end
 
   def teardown
-    FileUtils.rm(Swatch::TRACK_FILE)
+    #FileUtils.rm(Swatch::TRACK_FILE)
   end
 
   #task_in true/false
@@ -42,6 +42,16 @@ class TestSwatch < Test::Unit::TestCase
   end
 
   # Testing get_last_task_name
+  def test_get_last_task_name
+    # No task in the file
+    assert_equal false, Swatch::get_last_task_name
+    # Add a running task
+    open(Swatch::TRACK_FILE, 'w+'){|f| f.print "Test\t#{Time.now.to_i}"}
+    assert_equal "Test", Swatch::get_last_task_name
+    # End the running task
+    open(Swatch::TRACK_FILE, 'a+'){|f| f.print "\t#{Time.now.to_i}\n"}
+    assert_equal "Test", Swatch::get_last_task_name
+  end
 
 end
 
