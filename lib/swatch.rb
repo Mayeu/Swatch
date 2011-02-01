@@ -31,8 +31,13 @@ module Swatch
       return false
     end
 
-    m = line.match '^(.+)\t\d+(\t\d+)?'
-    m[1]
+    line = line.split "\t"
+    if running_task?
+      line.pop
+    else
+      line.pop 2
+    end
+    line.join "\t"
   end
 
   # Go out of the current task running
