@@ -60,4 +60,13 @@ class TestSwatch < Test::Unit::TestCase
     assert_equal true, Swatch::task_in("Test")
     assert_equal "Test", Swatch::get_last_task_name
   end
+
+  # Testing task_out
+  def test_task_out
+    # No task to finish
+    assert_equal false, Swatch::task_out
+    # We add a task
+    assert_equal true, Swatch::task_in("Test")
+    assert_equal true, Swatch::task_out
+  end
 end
