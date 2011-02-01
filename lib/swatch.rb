@@ -44,9 +44,9 @@ module Swatch
   def task_out
     if running_task?
       puts "Stop task: " + get_last_task_name
-      f = File.open(TRACK_FILE, "a")
-      f.print "\t#{Time.now.to_i}\n"
-      f.close
+      open(TRACK_FILE, "a"){|f|
+        f.print "\t#{Time.now.to_i}\n"
+      }
       return true
     else
       puts "There is no task running"
