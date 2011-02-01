@@ -27,6 +27,10 @@ module Swatch
   def get_last_task_name
     line = ''
     IO.popen("tail -n 1 #{TRACK_FILE}") { |f| line = f.gets }
+    if line == nil
+      return false
+    end
+
     m = line.match '^(.+)\t\d+(\t\d+)?'
     m[1]
   end
