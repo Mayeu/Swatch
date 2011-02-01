@@ -22,12 +22,11 @@ class TestSwatch < Test::Unit::TestCase
   end
 
   def teardown
-    #FileUtils.rm(Swatch::TRACK_FILE)
+    FileUtils.rm(Swatch::TRACK_FILE)
   end
 
   #task_in true/false
   #task_out true/false
-  #get_last_task_name task_name
 
   # Testing running_task?
   def test_running_task?
@@ -53,5 +52,12 @@ class TestSwatch < Test::Unit::TestCase
     assert_equal "Test", Swatch::get_last_task_name
   end
 
+  # Testing task_in
+  def test_task_in
+    # No task given in argument
+    assert_equal false, Swatch::task_in("")
+    # Add a task
+    assert_equal true, Swatch::task_in("Test")
+    assert_equal "Test", Swatch::get_last_task_name
+  end
 end
-
