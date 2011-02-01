@@ -25,9 +25,6 @@ class TestSwatch < Test::Unit::TestCase
     FileUtils.rm(Swatch::TRACK_FILE)
   end
 
-  #task_in true/false
-  #task_out true/false
-
   # Testing running_task?
   def test_running_task?
     # No running task
