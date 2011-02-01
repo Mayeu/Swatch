@@ -38,8 +38,10 @@ module Swatch
       f = File.open(TRACK_FILE, "a")
       f.print "\t#{Time.now.to_i}\n"
       f.close
+      return true
     else
       puts "There is no task running"
+      return false
     end
   end
 
@@ -48,7 +50,7 @@ module Swatch
     # don't go here if ARGV is null !
     if task.strip.empty?
       puts "No task specified"
-      exit
+      return false
     end
 
     # if there is a task running, we get out of it
@@ -70,6 +72,7 @@ module Swatch
     out.close
 
     puts "Start task: #{task}"
+    return true
   end
 
   # Return the todo associated to the given number
