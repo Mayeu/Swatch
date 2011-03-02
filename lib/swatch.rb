@@ -87,7 +87,11 @@ module Swatch
   # Return the todo associated to the given number
   def get_todo (nb)
     # TODO: parse todo to remove the priority
-    IO.readlines(TODO_FILE)[nb-1]
+    line = IO.readlines(TODO_FILE)[nb-1]
+    if line.match '^\(([A-Z])\)'
+      line.slice!(0..4)
+    end
+    line
   end
 
   # Going in a task with a todo from todo.txt
