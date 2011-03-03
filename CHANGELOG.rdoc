@@ -1,5 +1,12 @@
 = Changelog
 
+== 0.3
+ * Add test for the library
+ * Add the elapsed time when you go out a task
+ * Remove the priority of todo.txt in the .swatch.txt file
+ * Clean some comment
+ * Correct bug discovered by the newly created test
+
 == 0.2.2
 Minor update to add dependencies to Trollop and parseconfig
 

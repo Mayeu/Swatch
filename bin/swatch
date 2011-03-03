@@ -19,7 +19,7 @@ require_relative '../lib/swatch'
 # ###############
 
 CONF_FILE = File.expand_path("~/.swatchrc")
-VERSION = '0.2.2'
+VERSION = '0.3'
 
 if File.exist? CONF_FILE
   config = ParseConfig.new(CONF_FILE)
