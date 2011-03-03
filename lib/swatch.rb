@@ -7,6 +7,8 @@
 #------------------------------------------------------------------------------
 #
 
+require_relative './numeric.rb'
+
 module Swatch
 
   module_function
@@ -21,6 +23,17 @@ module Swatch
     else
       false
     end
+  end
+
+  # Return the start time of a running task
+  def get_last_task_stime
+    line = ''
+    IO.popen("tail -n 1 #{TRACK_FILE}") { |f| line = f.gets }
+    if line == nil
+      return false
+    end
+
+    line.split("\t").pop
   end
 
   # Return the name of the last task
@@ -43,7 +56,7 @@ module Swatch
   # Go out of the current task running
   def task_out
     if running_task?
-      puts "Stop task: " + get_last_task_name
+      puts "Stop task: " + get_last_task_name + ", #{(Time.now.to_i - get_last_task_stime.to_i).duration}"
       open(TRACK_FILE, "a"){|f|
         f.print "\t#{Time.now.to_i}\n"
       }
