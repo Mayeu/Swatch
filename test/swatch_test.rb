@@ -10,7 +10,7 @@
 #
 
 require_relative '../lib/swatch'
-require 'FileUtils'
+require 'fileutils'
 require 'test/unit'
 
 class TestSwatch < Test::Unit::TestCase
@@ -65,5 +65,11 @@ class TestSwatch < Test::Unit::TestCase
     # We add a task
     assert_equal true, Swatch::task_in("Test")
     assert_equal true, Swatch::task_out
+  end
+
+  # Testing get_last_task_stime
+  def test_last_task_stime
+    open(Swatch::TRACK_FILE, 'w+'){|f| f.print "Test\t1000000"}
+    assert_equal "1000000", Swatch::get_last_task_stime
   end
 end
