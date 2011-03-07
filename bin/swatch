@@ -19,7 +19,7 @@ require_relative '../lib/swatch'
 # ###############
 
 CONF_FILE = File.expand_path("~/.swatchrc")
-VERSION = '0.3'
+VERSION = '0.3.1'
 
 if File.exist? CONF_FILE
   config = ParseConfig.new(CONF_FILE)
@@ -61,8 +61,8 @@ cmd_opts = case cmd
                opt :todo, "Track a todo.txt task", :type => :int, :short => "-t"
              end
            when "out", "o"
-           when "what" || "w"
-           when "report" || "r"
+           when "what", "w"
+           when "report", "r"
            end
 
 #puts "Global options: #{global_opts.inspect}"
@@ -81,6 +81,7 @@ when "in", "i"
   end
 when "out", "o"
   Swatch::task_out
-when "what" || "w"
-when "report" || "r"
+when "what", "w"
+   Swatch::what_task
+when "report", "r"
 end

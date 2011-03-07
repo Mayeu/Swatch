@@ -11,109 +11,119 @@ require_relative './numeric.rb'
 
 module Swatch
 
-  module_function
+   module_function
 
-  # Test if there is a task currently running. Return true if there is
-  def running_task?
-    line = ''
-    IO.popen("tail -n 1 #{TRACK_FILE}") { |f| line = f.gets }
-    #puts line
-    if(line != nil && (!line.match '^.+\t\d+\t\d+$'))
-      true
-    else
-      false
-    end
-  end
+   # Test if there is a task currently running. Return true if there is
+   def running_task?
+      line = ''
+      IO.popen("tail -n 1 #{TRACK_FILE}") { |f| line = f.gets }
+      #puts line
+      if(line != nil && (!line.match '^.+\t\d+\t\d+$'))
+         true
+      else
+         false
+      end
+   end
 
-  # Return the start time of a running task
-  def get_last_task_stime
-    line = ''
-    IO.popen("tail -n 1 #{TRACK_FILE}") { |f| line = f.gets }
-    if line == nil
-      return false
-    end
+   # Return the start time of a running task
+   def get_last_task_stime
+      line = ''
+      IO.popen("tail -n 1 #{TRACK_FILE}") { |f| line = f.gets }
+      if line == nil
+         return false
+      end
 
-    line.split("\t").pop
-  end
+      line.split("\t").pop
+   end
 
-  # Return the name of the last task
-  def get_last_task_name
-    line = ''
-    IO.popen("tail -n 1 #{TRACK_FILE}") { |f| line = f.gets }
-    if line == nil
-      return false
-    end
+   # Return the name of the last task
+   def get_last_task_name
+      line = ''
+      IO.popen("tail -n 1 #{TRACK_FILE}") { |f| line = f.gets }
+      if line == nil
+         return false
+      end
 
-    line = line.split "\t"
-    if running_task?
-      line.pop
-    else
-      line.pop 2
-    end
-    line.join "\t"
-  end
+      line = line.split "\t"
+      if running_task?
+         line.pop
+      else
+         line.pop 2
+      end
+      line.join "\t"
+   end
 
-  # Go out of the current task running
-  def task_out
-    if running_task?
-      puts "Stop task: " + get_last_task_name + ", #{(Time.now.to_i - get_last_task_stime.to_i).duration}"
-      open(TRACK_FILE, "a"){|f|
-        f.print "\t#{Time.now.to_i}\n"
-      }
+   # Go out of the current task running
+   def task_out
+      if running_task?
+         puts "Stop task: " + get_last_task_name + ", #{(Time.now.to_i - get_last_task_stime.to_i).duration}"
+         open(TRACK_FILE, "a"){|f|
+            f.print "\t#{Time.now.to_i}\n"
+         }
+         return true
+      else
+         puts "There is no task running"
+         return false
+      end
+   end
+
+   # Start a task
+   def task_in (task)
+      # don't go here if ARGV is null !
+      if task.strip.empty?
+         puts "No task specified"
+         return false
+      end
+
+      # if there is a task running, we get out of it
+      if running_task?
+         #puts "There is a task running, getting out of this one"
+         task_out
+      end
+
+      if(!File.exist?(TRACK_FILE))
+         #puts "Create a new task file"
+         out = File.new(TRACK_FILE, "w")
+      else
+         #puts "Use #{TRACK_FILE}"
+         out = File.open(TRACK_FILE, "a")
+      end
+
+      #print the task in the file
+      out.print "#{task}\t#{Time.now.to_i}"
+      out.close
+
+      puts "Start task: #{task}"
       return true
-    else
-      puts "There is no task running"
-      return false
-    end
-  end
+   end
 
-  # Start a task
-  def task_in (task)
-    # don't go here if ARGV is null !
-    if task.strip.empty?
-      puts "No task specified"
-      return false
-    end
+   # Return the todo associated to the given number
+   def get_todo (nb)
+      # TODO: parse todo to remove the priority
+      line = IO.readlines(TODO_FILE)[nb-1]
+      if line.match '^\(([A-Z])\)'
+         line.slice!(0..4)
+      end
+      line
+   end
 
-    # if there is a task running, we get out of it
-    if running_task?
-      #puts "There is a task running, getting out of this one"
-      task_out
-    end
+   # Going in a task with a todo from todo.txt
+   def task_in_todo (nb)
+      t = get_todo (nb)
+      if t
+         task_in t.chomp
+      else
+         puts "No task specified"
+      end
+   end
 
-    if(!File.exist?(TRACK_FILE))
-      #puts "Create a new task file"
-      out = File.new(TRACK_FILE, "w")
-    else
-      #puts "Use #{TRACK_FILE}"
-      out = File.open(TRACK_FILE, "a")
-    end
+   # What task are currently running
+   def what_task
+      if running_task?
+         puts "Current task: " + get_last_task_name + ", #{(Time.now.to_i - get_last_task_stime.to_i).duration}"
+      else
+         puts "No task running!"
+      end
+   end
 
-    #print the task in the file
-    out.print "#{task}\t#{Time.now.to_i}"
-    out.close
-
-    puts "Start task: #{task}"
-    return true
-  end
-
-  # Return the todo associated to the given number
-  def get_todo (nb)
-    # TODO: parse todo to remove the priority
-    line = IO.readlines(TODO_FILE)[nb-1]
-    if line.match '^\(([A-Z])\)'
-      line.slice!(0..4)
-    end
-    line
-  end
-
-  # Going in a task with a todo from todo.txt
-  def task_in_todo (nb)
-     t = get_todo (nb)
-    if t
-      task_in t.chomp
-    else
-      puts "No task specified"
-    end
-  end
 end
