@@ -16,6 +16,9 @@ Getting out:
 Timing a todo.txt task:
   swatch in -t 42
 
+What am I currently tracking:
+  swatch what
+
 == Config
 
 Swatch look for the ~/.swatchrc file. If it's present swatch will parse it to get track_file and todo_file path.
@@ -26,4 +29,6 @@ Exemple :
 By default (i.e if there is no ~/.swatchrc file), swatch will look for todo file in ~/.todo.txt and track_file in ~/.swatch.txt.
 
 == Todo
-* parse todo to remove the priority
+* Implement report functionnality
+* Add option to only print duration of the "what" command
+* Add option to start/end task at a certain time
